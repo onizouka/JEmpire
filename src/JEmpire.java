@@ -20,9 +20,11 @@ public  class JEmpire {
             afficherMenu();
             int choix = Lirechoix();
             traiteChoix(choix);
-            //faireManger();
-            //verifierDefaite();
+           faireManger(); 
+           verifierdefaite();
         }
+
+
         sc.close();
     }
 
@@ -151,14 +153,58 @@ public  class JEmpire {
         }
 
         static void commerce () {
+            if (pierre<5) {
+                System.out.println("\n > Impossible de commercer, car pas assez de pierre. Il faut 5 pierres. (Actuel :" + pierre +")");
+                return;
+
+            }
             pierre -= 5;
             or += 10;
+
+            System.out.println("\n > Vous avez commercé des matériaux ");
+            System.out.println("\n > Pierre -5 | Or +10" );
         }
+
+
         static void construireChateaux () {
+            if(bois < 100 & pierre < 100 & or < 200 & habitant < 2) {
+            System.out.println("\n> Impossible de construire un château, car vous n avez pas assez de matériaux");
+            return;
+            }
             bois -= 100;
             pierre -= 100;
             or -= 200;
-            habitant -= 40;
-            System.out.println("VICTOIRE IMMEDIATE !");
+            habitant -= 2;
+            System.out.println("Victoire immédiate");
         }
-    }
+
+
+
+        static void faireManger() {
+            if (!jeuEnCours) 
+                return;
+                System.out.println("\n> Les habitants mangent (-1" + habitant +  "nourriture");
+                if  (nourriture>= habitant){
+                nourriture -= habitant;
+                }
+                else {
+                    nourriture = 0;
+                    habitant = 0;
+                System.out.println("\n> Vous n'avez plus de nourriture donc les habitants meurent de faim (" + habitant +"  nourriture )");  
+                }
+               
+            }
+
+        static void verifierdefaite() {
+               if (habitant<=  0 & jeuEnCours) {
+                System.out.println("\n GAME OVER");
+               
+            jeuEnCours = false;
+            }
+        }
+            }
+       
+        
+
+    
+    
