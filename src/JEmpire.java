@@ -7,7 +7,7 @@ public  class JEmpire {
     static int or = 50;
     static int nourriture = 100;
     static int habitant = 1;
-
+    static int tour = 0;
     static boolean mineConstruite = false;
     static boolean jeuEnCours = true;
 
@@ -16,12 +16,13 @@ public  class JEmpire {
     public static void main(String[] args) {
         afficherIntro();
         while (jeuEnCours) {
+            tour++;
             afficherRessource();
             afficherMenu();
             int choix = Lirechoix();
             traiteChoix(choix);
-            //faireManger();
-            //verifierDefaite();
+            faireManger();
+            verifierDefaite();
         }
         sc.close();
     }
@@ -45,7 +46,7 @@ public  class JEmpire {
         System.out.println("Nourriture :" + nourriture);
         System.out.println("Habitant :" + habitant);
         System.out.println("mine :" + (mineConstruite ? "Construite " : " pas construite"));
-
+        System.out.println("Tour :" + tour);
     }
 
     static void afficherMenu() {
@@ -126,39 +127,90 @@ public  class JEmpire {
 
     static void travaillerMine() {
         if (!mineConstruite) {
-            System.out.println("\n > Vous n'avez pas encore de mine ! Construisez-en une d'abord (choix 2).");
+            System.out.println("\n > Vous n'avez pas de mine encore ! Construisez-en une d'abord (choix 2).");
             return;
         } else if (nourriture < 5) {
             System.out.println("\n > Pas assez de nourriture ! Il vous faut 5 Nourriture. (Actuel : " + nourriture + ")");
             return;
         }
-            nourriture -= 5;
-            pierre += 5;
-            or += 2;
-            System.out.println("\n > Vos mineurs ont travaillé dur dans les tunnels ! ");
-            System.out.println("\n > Nourriture -5 | Pierre +5 | Or +2 ");
-        }
+        nourriture -= 5;
+        pierre += 5;
+        or += 2;
+        System.out.println("\n > Vos mineurs ont travaillé dur dans les tunnels ! ");
+        System.out.println("\n > Nourriture -5 | Pierre +5 | Or +2 ");
+    }
 
-        static void recruterSoldat () {
-            if (or < 30) {
-                System.out.println("\n > Pas assez d'or ! Il faut 30 Or. (Actuel : " + or + ")");
-                return;
-            }
-            or -= 30;
-            habitant += 1;
-            System.out.println("\n > Un nouveau soldat rejoint vos rangs ! ");
-            System.out.println("\n > Or -30 | Habitants +1 ");
+    static void recruterSoldat() {
+        if (or < 30) {
+            System.out.println("\n > Pas assez d'or ! Il faut 30 Or. (Actuel : " + or + ")");
+            return;
         }
+        or -= 30;
+        habitant += 1;
+        System.out.println("\n > Un nouveau soldat rejoint vos rangs ! ");
+        System.out.println("\n > Or -30 | Habitants +1 ");
+    }
 
-        static void commerce () {
-            pierre -= 5;
-            or += 10;
+    static void commerce() {
+        if (pierre < 5) {
+            System.out.println("\n > Pas assez de pierre ! Il vous faut 5 Pierre. (Actuel : " + pierre + ")");
+            return;
         }
-        static void construireChateaux () {
-            bois -= 100;
-            pierre -= 100;
-            or -= 200;
-            habitant -= 40;
-            System.out.println("VICTOIRE IMMEDIATE !");
+        pierre -= 5;
+        or += 10;
+        System.out.println("\n> Vos marchands ont vendu des matériaux au marché !");
+        System.out.println("\n> Pierre -5 | Or +10");
+    }
+
+    static void construireChateaux() {
+        if (bois < 100 & pierre < 200 & or < 200 & habitant < 2) {
+            System.out.println("\n> Construction du chateaux IMPOSSIBLE");
+            return;
+        }
+        bois -= 100;
+        pierre -= 100;
+        or -= 200;
+        habitant -= 2;
+        System.out.println("\n>=============================================");
+        System.out.println("\n>||       FELICITATION GOUVERNEUR           ||");
+        System.out.println("\n>||             o         o                 ||");
+        System.out.println("\n>||                  |                      ||");
+        System.out.println("\n>||              _______/                   ||");
+        System.out.println("\n>||                                         ||");
+        System.out.println("\n>||     *** VICTOIRE IMMEDIATE ! ***        ||");
+        System.out.println("\n>=============================================");
+    }
+
+    static void faireManger() {
+        if (!jeuEnCours)
+            return;
+        System.out.println("\n > Vos habitants mangent ! (-" + habitant + " nourriture)");
+        if (nourriture >= habitant) {
+            nourriture -= habitant;
+
+        } else {
+            nourriture = 0;
+            habitant = 0;
+            System.out.println("\n> Catastrophe vos habitants on sucombé a la famine !");
         }
     }
+
+    static void verifierDefaite() {
+        if (habitant<=0 && jeuEnCours) {
+            System.out.println("\n>==============================================");
+            System.out.println("\n>||               GAME OVER                  ||");
+            System.out.println("\n>||              o        o                  ||");
+            System.out.println("\n>||                   |                      ||");
+            System.out.println("\n>||                 ______                   ||");
+            System.out.println("\n>||                /                         ||");
+            System.out.println("\n>||  Votre collonie a disparue dans l'oublie ||");
+            System.out.println("\n>||                                          ||");
+            System.out.println("\n>||  l'histoire ne se souviendra pas de vous ||");
+            System.out.println("\n>==============================================");
+            jeuEnCours = false;
+        }
+    }
+
+
+    }
+
